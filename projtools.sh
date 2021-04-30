@@ -20,7 +20,8 @@ mkproj(){  # create a new project
 	local proj="$1"
 	echo "creating project: ${proj}"
 
-	mkdir -p "${PROJECTS_DIR}/${proj}"
+	mkdir -p "${PROJECTS_DIR}/${proj}/"
+	mkdir -p "${PROJECTS_DIR}/${proj}/.projecttools"
 
 	echo "created project: ${proj}"
 	echo "type 'cdproj ${proj}' to start using it"
@@ -29,21 +30,26 @@ mkproj(){  # create a new project
 cdproj(){  # navigate to project directory
         [ $# -ne 1 ] && echo "cdproj: must specify project name" && return 1
         local proj="$1"
+	[ ! -d "${PROJECTS_DIR}/${proj}" ] && echo "cdproj: project ${proj} not found" && return 1
 	echo "switching to project: ${proj}"
 	echo
 	echo "listing project contents"
         cd "${PROJECTS_DIR}/${proj}"
-	ls -l
+	ls -la
 }
 
+initproj() {   # run project specific setup
+	[ $# -ne 1 ] && echo "initproj: must specify project name" && return 1
+	local proj="$1"
+	local init="${PROJECTS_DIR}/${proj}/.projtools/init.sh"
+   	[ -f "${init}" ] && echo && echo "initalising project ${proj}" && . "${init}"
+}
 
 useproj() {  # navigate to project directory and run init scripts
 	[ $# -ne 1 ] && echo "useproj: must specify project name" && return 1
-	cdproj "$@"
 	local proj="$1"
-	echo
-	echo "running prehook"
-	local prehook="${PROJECTS_DIR}/${proj}/.projecthooks"
+	cdproj "$@"
+	initproj "$@"
 }
 
 

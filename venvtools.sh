@@ -25,6 +25,7 @@ mkenv(){  # create a new virtual environment
 usenv(){  # switch to an existing virtual environment
 	[ $# -ne 1 ] && echo "usenv: must specify venv name" && return 1
         local name="$1"
+        [ ! -d "${VENVS_DIR}/${name}" ] && echo "usenv: venv ${name} not found" && return 1
 	. "${VENVS_DIR}/${name}/bin/activate"
 }
 
