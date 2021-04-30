@@ -18,7 +18,7 @@ lsproj(){
 # project template?
 # from local path?, from git repo?
 mkproj(){
-        [ $# -eq 1 ] || echo "mkproj: must specify project name"
+        [ $# -eq 1 ] || echo "mkproj: must specify project name" && return 1
 	local proj="$1"
 	echo "creating project: ${proj}"
 
@@ -29,7 +29,7 @@ mkproj(){
 }
 
 cdproj(){
-        [ $# -eq 1 ] || echo "cdproj: specify project name"
+        [ $# -eq 1 ] || echo "cdproj: must specify project name" && return 1
         local proj="$1"
 	echo "switching to project: ${proj}"
 	echo
