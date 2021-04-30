@@ -4,11 +4,13 @@
 # Date: 02.05.21
 
 
-# Config
+# config
+
 export VENVS_DIR="$HOME/venvs"
 export VENVS_PYTHON="${VENVS_PYTHON:-python3.8}"
 
-# Functions
+
+# functions
 
 lsenv(){
 	ls -lt "$VENVS_DIR" | awk '{print $9,$6,$7,$8}' | column -t
@@ -32,7 +34,18 @@ deenv(){
 }
 
 
-# Export Functions
+# completions
+_venvtools_completions()
+{
+  COMPREPLY=($(compgen -W "$(ls "${VENVS_DIR}")" "${COMP_WORDS[1]}"))
+}
+for fn in usenv; do
+        complete -F _venvtools_completions "${fn}"
+done
 
 
-# Command Completion
+# export to subshells
+for fn in lsenv mkenv usenv deenv; do
+        export -f "${fn}"
+done
+
