@@ -17,15 +17,15 @@ lsenv(){
 }
 
 mkenv(){
-	[ $# -eq 1 ] || echo "mkenv: specify venv name"
-	NAME="$1"
-	"${VENVS_PYTHON}" -m venv "${VENVS_DIR}/${NAME}"
+	[ $# -eq 1 ] || echo "mkenv: must specify venv name" && return 1
+	local name="$1"
+	"${VENVS_PYTHON}" -m venv "${VENVS_DIR}/${name}"
 }
 
 usenv(){
-	[ $# -eq 1 ] || echo "mkenv: specify venv name"
-        NAME="$1"
-	. "${VENVS_DIR}/${NAME}/bin/activate"
+	[ $# -eq 1 ] || echo "mkenv: must specify venv name" && return 1
+        local name="$1"
+	. "${VENVS_DIR}/${name}/bin/activate"
 }
 
 

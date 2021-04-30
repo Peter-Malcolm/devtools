@@ -8,7 +8,6 @@
 
 export PROJECTS_DIR="${PROJECTS_DIR:-$HOME/projects}"
 
-export PROJECT_HOOKFILE
 
 # functions
 
