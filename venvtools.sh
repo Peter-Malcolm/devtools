@@ -17,13 +17,13 @@ lsenv(){  # list all available virtual environments
 }
 
 mkenv(){  # create a new virtual environment
-	[ $# -eq 1 ] || echo "mkenv: must specify venv name" && return 1
+	[ $# -ne 1 ] && echo "mkenv: must specify venv name" && return 1
 	local name="$1"
 	"${VENVS_PYTHON}" -m venv "${VENVS_DIR}/${name}"
 }
 
 usenv(){  # switch to an existing virtual environment
-	[ $# -eq 1 ] || echo "usenv: must specify venv name" && return 1
+	[ $# -ne 1 ] && echo "usenv: must specify venv name" && return 1
         local name="$1"
 	. "${VENVS_DIR}/${name}/bin/activate"
 }

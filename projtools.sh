@@ -16,7 +16,7 @@ lsproj(){
 }
 
 mkproj(){  # create a new project
-        [ $# -eq 1 ] || echo "mkproj: must specify project name" && return 1
+        [ $# -ne 1 ] && echo "mkproj: must specify project name" && return 1
 	local proj="$1"
 	echo "creating project: ${proj}"
 
@@ -27,10 +27,10 @@ mkproj(){  # create a new project
 }
 
 cdproj(){  # navigate to project directory
-        [ $# -eq 1 ] || echo "cdproj: must specify project name" && return 1
+        [ $# -ne 1 ] && echo "cdproj: must specify project name" && return 1
         local proj="$1"
 	echo "switching to project: ${proj}"
-`	echo
+	echo
 	echo "listing project contents"
         cd "${PROJECTS_DIR}/${proj}"
 	ls -l
@@ -38,7 +38,7 @@ cdproj(){  # navigate to project directory
 
 
 useproj() {  # navigate to project directory and run init scripts
-	[ $# -eq 1 ] || echo "useproj: must specify project name" && return 1
+	[ $# -ne 1 ] && echo "useproj: must specify project name" && return 1
 	cdproj "$@"
 	local proj="$1"
 	echo
