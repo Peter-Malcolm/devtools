@@ -12,24 +12,24 @@ export VENVS_PYTHON="${VENVS_PYTHON:-python3.8}"
 
 # functions
 
-lsenv(){
+lsenv(){  # list all available virtual environments
 	ls -lt "$VENVS_DIR" | awk '{print $9,$6,$7,$8}' | column -t
 }
 
-mkenv(){
+mkenv(){  # create a new virtual environment
 	[ $# -eq 1 ] || echo "mkenv: must specify venv name" && return 1
 	local name="$1"
 	"${VENVS_PYTHON}" -m venv "${VENVS_DIR}/${name}"
 }
 
-usenv(){
-	[ $# -eq 1 ] || echo "mkenv: must specify venv name" && return 1
+usenv(){  # switch to an existing virtual environment
+	[ $# -eq 1 ] || echo "usenv: must specify venv name" && return 1
         local name="$1"
 	. "${VENVS_DIR}/${name}/bin/activate"
 }
 
 
-deenv(){
+deenv(){  # stop using a virtual environment
 	deactivate
 }
 
