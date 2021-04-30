@@ -8,6 +8,7 @@
 
 export PROJECTS_DIR="${PROJECTS_DIR:-$HOME/projects}"
 
+export PROJECT_HOOKFILE
 
 # functions
 
@@ -15,9 +16,7 @@ lsproj(){
         ls -lt "${PROJECTS_DIR}" | awk '{print $9,$6,$7,$8}' | column -t
 }
 
-# project template?
-# from local path?, from git repo?
-mkproj(){
+mkproj(){  # create a new project
         [ $# -eq 1 ] || echo "mkproj: must specify project name" && return 1
 	local proj="$1"
 	echo "creating project: ${proj}"
@@ -28,23 +27,26 @@ mkproj(){
 	echo "type 'cdproj ${proj}' to start using it"
 }
 
-cdproj(){
+cdproj(){  # navigate to project directory
         [ $# -eq 1 ] || echo "cdproj: must specify project name" && return 1
         local proj="$1"
 	echo "switching to project: ${proj}"
-	echo
-	echo "project contents"
+`	echo
+	echo "listing project contents"
         cd "${PROJECTS_DIR}/${proj}"
 	ls -l
 }
 
-# alias for cdproj
-useproj() {
+
+useproj() {  # navigate to project directory and run init scripts
+	[ $# -eq 1 ] || echo "useproj: must specify project name" && return 1
 	cdproj "$@"
+	local proj="$1"
+	echo
+	echo "running prehook"
+	local prehook="${PROJECTS_DIR}/${proj}/.projecthooks"
 }
 
-# unproj
-# rmproj
 
 # completions
 _projtools_completions()
