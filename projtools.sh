@@ -12,6 +12,8 @@ export PROJECTS_DIR="${PROJECTS_DIR:-$HOME/projects}"
 # functions
 
 lsproj(){
+	echo "listing recent projects"
+	echo
         ls -lt "${PROJECTS_DIR}" | awk '{print $9,$6,$7,$8}' | column -t
 }
 
@@ -42,14 +44,19 @@ initproj() {   # run project specific setup
 	[ $# -ne 1 ] && echo "initproj: must specify project name" && return 1
 	local proj="$1"
 	local init="${PROJECTS_DIR}/${proj}/.projtools/init.sh"
-   	[ -f "${init}" ] && echo && echo "initalising project ${proj}" && . "${init}"
+   	[ -f "${init}" ] && echo && echo "initalising project: ${proj}" && . "${init}"
 }
+
 
 useproj() {  # navigate to project directory and run init scripts
 	[ $# -ne 1 ] && echo "useproj: must specify project name" && return 1
 	local proj="$1"
 	cdproj "$@"
 	initproj "$@"
+}
+
+deproj() {  # stop using a project  # TODO - implement properly
+	[ $# -ne 0 ] && echo "deproj: takes no arguments" && return 1
 }
 
 
